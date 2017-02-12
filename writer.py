@@ -1,6 +1,5 @@
 def write(data):
     print "Starting Write Functon"
-
     header = "Name,Match Number,Team,Position,High Fuel Auto,Low Fuel Auto,Gears Auto,Line Auto,High Fuel Teleop,Low Fuel Teleop,Gears Teleop,Climb,No Show,Broken,Disabled,Penalty,Bad Pilot"
     matches = [header]+data.splitlines()
     filename = "ScoutData.csv"
@@ -20,14 +19,18 @@ def write(data):
         if data!="":
             f.write(data + '\n')
     f.close()
-    with open(filename) as f:
-        lines = f.readlines()
+    f = open(filename)
+    lines = f.readlines()
     lines = [x.strip() for x in storedMatches]
+    cache = []
     for line in lines:
         if line == "":
             lines.remove(line)
+        if line in cache:
+            lines.remove(line)
+        else: cache.append(line)
     f = open(filename, 'w')
-    for data in datawrite:
+    for line in lines:
         if data != "":
-            f.write(data + '\n')
+            f.write(line + '\n')
     f.close()

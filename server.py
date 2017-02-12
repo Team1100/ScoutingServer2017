@@ -16,7 +16,6 @@ def server(index):
         server_sock = BluetoothSocket(RFCOMM)
         server_sock.bind(("", index+1))
         server_sock.listen(1)
-
         port = server_sock.getsockname()[1]
 
         uuid = getUUID(index)
