@@ -13,24 +13,17 @@ def write(data):
         if match=="":
             matches.remove(match)
     datawrite = storedMatches + matches
+    cache = []
+    for line in datawrite:
+        if line == "":
+            datawrite.remove(line)
+        if line in cache:
+            datawrite.remove(line)
+        else:
+            cache.append(line)
     print "Writing ", datawrite
     f = open(filename,'w')
     for data in datawrite:
         if data!="":
             f.write(data + '\n')
-    f.close()
-    f = open(filename)
-    lines = f.readlines()
-    lines = [x.strip() for x in storedMatches]
-    cache = []
-    for line in lines:
-        if line == "":
-            lines.remove(line)
-        if line in cache:
-            lines.remove(line)
-        else: cache.append(line)
-    f = open(filename, 'w')
-    for line in lines:
-        if data != "":
-            f.write(line + '\n')
     f.close()

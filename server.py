@@ -44,4 +44,3 @@ def server(index):
 
         client_sock.close()
         server_sock.close()
-        print("all done")
