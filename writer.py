@@ -27,3 +27,32 @@ def write(data):
         if data!="":
             f.write(data + '\n')
     f.close()
+def pitWrite(data):
+    print "Starting Pit Write Functon"
+    header = "Team,Team Name,CIM Count,Drive Type,Intake Type,Shooter Type,Comments"
+    info = [header] + data.splitlines()
+    filename = "PitData.csv"
+    with open(filename) as f:
+        storedInfo = f.readlines()
+    storedInfo = [x.strip() for x in storedInfo]
+    print "PIT Finished Reading: ", storedInfo
+    for match in info:
+        if match in storedInfo:
+            info.remove(match)
+        if match == "":
+            info.remove(match)
+    infowrite = storedInfo + info
+    cache = []
+    for line in infowrite:
+        if line == "":
+            infowrite.remove(line)
+        if line in cache:
+            infowrite.remove(line)
+        else:
+            cache.append(line)
+    print "Writing ", infowrite
+    f = open(filename, 'w')
+    for data in infowrite:
+        if data != "":
+            f.write(data + '\n')
+    f.close()

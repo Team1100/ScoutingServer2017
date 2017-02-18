@@ -1,5 +1,5 @@
 from bluetooth import *
-from writer import write
+from writer import *
 
 def getUUID(index):
     return{
@@ -41,6 +41,40 @@ def server(index):
         print info
         write(info)
         print("disconnected")
+
+        client_sock.close()
+        server_sock.close()
+
+def pitServer():
+    while True:
+        server_sock = BluetoothSocket(RFCOMM)
+        server_sock.bind(("", 7))
+        server_sock.listen(1)
+        port = server_sock.getsockname()[1]
+
+        uuid = "ab8c5e79-47e6-42c9-a4c2-6b3168aa3f9f"
+
+        advertise_service(server_sock, "PitScout",
+                          service_id=uuid,
+                          service_classes=[uuid, SERIAL_PORT_CLASS],
+                          profiles=[SERIAL_PORT_PROFILE],
+                          )
+        print("Waiting for connection on RFCOMM channel %d\n" % port)
+
+        client_sock, client_info = server_sock.accept()
+        print("PIT Accepted connection from ", client_info)
+        info = ""
+        try:
+            while True:
+                data = client_sock.recv(15000)
+                if len(data) == 0:
+                    break
+                info+=data
+        except IOError:
+            pass
+        print info
+        pitWrite(info)
+        print("PIT disconnected")
 
         client_sock.close()
         server_sock.close()
