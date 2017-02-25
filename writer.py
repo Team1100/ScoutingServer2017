@@ -29,7 +29,7 @@ def write(data):
     f.close()
 def pitWrite(data):
     print "Starting Pit Write Functon"
-    header = "Team,Team Name,CIM Count,Drive Type,Intake Type,Shooter Type,Comments"
+    header = "Team,Team Name,CIM Count,Drive Type,Intake Type,Shooter Type,Gear Ability,Comments"
     info = [header] + data.splitlines()
     filename = "PitData.csv"
     with open(filename) as f:
